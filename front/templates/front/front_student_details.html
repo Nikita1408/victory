@@ -1,0 +1,330 @@
+
+{% extends 'front/front_base.html' %}
+
+{% block up %}
+
+<html class="no-js " lang="en">
+
+<!-- Mirrored from thememakker.com/templates/oreo/university/html/index2.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 17 Sep 2018 02:53:20 GMT -->
+<head>
+{% load static %}
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
+
+<title>:: Oreo University Admin ::</title>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<!-- Favicon-->
+<link href="{% static 'assets/plugins/dropzone/dropzone.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/plugins/morrisjs/morris.css' %}"/>
+<link href="{% static 'assets/plugins/bootstrap-select/css/bootstrap-select.css' %}" rel="stylesheet" />
+<!-- Custom Css -->
+<link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/hm-style.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/color_skins.css' %}">
+</head>
+
+
+{% endblock %}
+
+{% block down %}
+
+<section class="content profile-page">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-lg-7 col-md-6 col-sm-12">
+                <h2>Student Details
+                </h2>
+            </div>
+
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-4 col-md-12 col-sm-12">
+                 <div class="card profile-header">
+                    <div class="body text-center">
+                        <div class="profile-image"> <img src="{{ student_data.image.url }}" alt=""> </div>
+                        <div>
+                            <h4 class="m-b-0"><strong>{{ student_data.name }}</strong></h4>
+                            <span class="job_post">{{ student_data.college }}</span>
+
+							<span class="job_post"><b>Addmission Date</b>&nbsp;{{ student_data.addmission_date }}</span>
+                        </div>
+                         <div >
+
+                        <div class="table-responsive">
+                            <table class="table table-hover m-t-20">
+                                <tbody>
+                                    <tr>
+                                        <td><strong class="col-blue">Mobile Number</strong></td>
+                                        <td>{{student_data.mobile}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong class="col-blue">Email Id</strong></td>
+                                        <td>{{student_data.email}}</td>
+                                    </tr>
+                                     <tr>
+                                        <td><strong class="col-blue">Address</strong></td>
+                                        <td>{{student_data.address}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong class="col-blue">Date Of Birth</strong></td>
+                                        <td>{{student_data.dob}}</td>
+                                    </tr>
+                                     <tr>
+                                        <td><strong class="col-blue">Gender</strong></td>
+                                        <td>{{student_data.gender}}</td>
+                                    </tr>
+                                     <tr>
+                                        <td><strong class="col-blue">Graduation/Class</strong></td>
+                                        <td>{{student_data.graduation}}</td>
+                                    </tr>
+                                     <tr>
+                                        <td><strong class="col-blue">Stream/Subject</strong></td>
+                                        <td>{{student_data.stream}}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
+                        </div>
+                       </div>
+                </div>
+
+            </div>
+            <div class="col-lg-8 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="body">
+
+                        <div class="table-responsive">
+                             <center><h5 class="m-b-0"><strong>Parents Details</strong></h5></center>
+                            <table class="table table-hover m-t-20">
+                                <thead>
+                                <th><strong class="col-blue">Father's Name</strong></th>
+                                <th><strong class="col-blue"> Address</strong></th>
+                                <th><strong class="col-blue"> Mobile Number</strong></th>
+                                <th><strong class="col-blue">Occupation</strong></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{student_data.Father_name}}</td>
+                                        <td>{{student_data.father_add}}</td>
+                                        <td>{{student_data.father_mob}}</td>
+                                        <td>{{student_data.Occupation}}</td>
+                                    </tr>
+
+
+                                </tbody>
+
+                            </table></div>
+
+                        <div class="table-responsive">
+                             <center><h5 class="m-b-0"><strong>Course Details</strong></h5></center>
+                            <table class="table table-hover m-t-20">
+                                <thead>
+                                <th><strong class="col-blue">Course Name</strong></th>
+                                <th><strong class="col-blue"> Batch Name</strong></th>
+                                <th><strong class="col-blue">Course Fee</strong></th>
+                                <th><strong class="col-blue">Number Of Installment</strong></th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{student_data.course.name}}</td>
+                                        <td>{{student_data.Batch.name}}</td>
+                                        <td>{{fee_packege.total_fee}}</td>
+                                        <td>{{fee_packege.master_make_installment_data_set.count}} Installment</td>
+                                    </tr>
+
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+<div class="row clearfix">
+                <div class="col-lg-5 col-md-12 col-sm-12">
+           <div class="card">
+                    <div class="body">
+
+                        <div class="table-responsive">
+                             <center><h5 class="m-b-0"><strong>Fee Details</strong></h5></center>
+                            <table class="table table-hover m-t-20">
+                                <thead>
+                                <th><strong class="col-blue">Fee Type</strong></th>
+                                <th><strong class="col-blue"> Fee</strong></th>
+                               </thead>
+                                <tbody>
+                                {% for f in student_data.front_student_fee_type_data_set.all %}
+                                {% if f.fee != '0' %}
+                                    <tr>
+                                        <td>{{f.name}}</td>
+                                        <td>{{f.fee}}</td>
+                                    </tr>
+                                {% endif %}
+                                {% endfor %}
+                                <tr>
+                                    <td><strong >Total</strong></td>
+                                        <td>{{ Total }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Discount</strong></td>
+                                        <td>{{ student_data.discount }} %</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Total Fee After Discount</strong></td>
+                                        <td>{{ student_data.total_fee }} </td>
+                                </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+                <div class="col-lg-7 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="body">
+                       <center><h5 class="m-b-0"><strong>Student Invoice</strong></h5></center>
+                         <div class="table-responsive">
+                            <table class="table table-hover m-t-20">
+                                <thead>
+                                <th><strong>Total Paid Fee</strong></th>
+                                <th><strong > Remaining Fee</strong></th>
+                                <th>More Details</th>
+                               </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{student_data.total_fee_pay}}  Rs.</td>
+                                        <td>{{ student_data.fee_after_pay }} Rs.</td>
+                                        <td><button class="btn btn-info btn-round btn-simple" data-toggle="modal" data-target="#fee_details">More Details</button>
+                        </td>
+                                    </tr>
+
+
+                                </tbody>
+
+                            </table>
+                        </div>
+
+
+                    </div>
+                </div>
+
+                </div></div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+</section>
+ <div class="modal fade" id="fee_details" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <center>
+                    <h5 class="title" id="largeModalLabel1"><strong class="col-orange">{{student_data.name}}'s  </strong> Fee Details </h5>
+                    </center>
+
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                            <div class="body">
+                                <div class="table-responsive">
+                            <table class="table table-hover m-t-20">
+                                <thead>
+                                <th>Installments</th>
+                                <th>Amount</th>
+                                <th>Paid Amount</th>
+                                <th>Remaining Amount</th>
+
+                               </thead>
+                                <tbody>
+                                {% for ins in student_data.front_student_fee_installment_data_set.all %}
+                                <tr>
+                                <td>{{ ins.installment }}</td>
+                                <td>{{ ins.amount }}</td>
+                                <td>{{ ins.pay_fee }}</td>
+                                <td>{{ ins.remaining_fee }}</td>
+
+                                </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td><strong class="col-orange" >Total</strong></td>
+                                    <td><strong>{{ student_data.total_fee }}</strong></td>
+                                    <td><strong>{{ student_data.total_fee_pay }}</strong></td>
+                                    <td><strong>{{ student_data.fee_after_pay }}</strong></td>
+                                </tr>
+
+
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                            </div>
+                </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+
+
+<script src="{% static 'assets/bundles/libscripts.bundle.js' %}"></script> <!-- Lib Scripts Plugin Js -->
+<script src="{% static 'assets/bundles/vendorscripts.bundle.js' %}"></script> <!-- Lib Scripts Plugin Js -->
+
+ <!-- Dropzone Plugin Js -->
+<script src="{% static 'assets/bundles/mainscripts.bundle.js' %}"></script>
+
+<script src="{% static 'assets/js/pages/charts/sparkline.js' %}"></script>
+<script>
+    /*global $ */
+    $(document).ready(function() {
+      "use strict";
+      $('.menu > ul > li:has( > ul)').addClass('menu-dropdown-icon');
+      //Checks if li has sub (ul) and adds class for toggle icon - just an UI
+
+      $('.menu > ul > li > ul:not(:has(ul))').addClass('normal-sub');
+
+      $(".menu > ul > li").hover(function(e) {
+        if ($(window).width() > 943) {
+          $(this).children("ul").stop(true, false).fadeToggle(150);
+          e.preventDefault();
+        }
+      });
+      //If width is more than 943px dropdowns are displayed on hover
+      $(".menu > ul > li").click(function() {
+        if ($(window).width() <= 943) {
+          $(this).children("ul").fadeToggle(150);
+        }
+      });
+      //If width is less or equal to 943px dropdowns are displayed on click (thanks Aman Jain from stackoverflow)
+
+      $(".h-bars").click(function(e) {
+        $(".menu > ul").toggleClass('show-on-mobile');
+        e.preventDefault();
+      });
+      //when clicked on mobile-menu, normal menu is shown as a list, classic rwd menu story (thanks mwl from stackoverflow)
+
+    });
+    </script>
+	{% endblock %}
+</body>
+
+<!-- Mirrored from thememakker.com/templates/oreo/university/html/index2.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 17 Sep 2018 02:53:20 GMT -->
+</html>

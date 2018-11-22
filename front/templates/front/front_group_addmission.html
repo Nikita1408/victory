@@ -1,0 +1,659 @@
+
+{% extends 'front/front_base.html' %}
+
+{% block up %}
+
+
+<!doctype html>
+<html class="no-js " lang="en">
+
+<!-- Mirrored from thememakker.com/templates/oreo/university/html/index2.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 17 Sep 2018 02:53:20 GMT -->
+<head>
+{% load static %}
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
+
+<title>:: Oreo University Admin ::</title>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<!-- Favicon-->
+<link href="{% static 'assets/plugins/dropzone/dropzone.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/plugins/morrisjs/morris.css' %}"/>
+<link href="{% static 'assets/plugins/bootstrap-select/css/bootstrap-select.css' %}" rel="stylesheet" />
+<!-- Custom Css -->
+    <link rel="stylesheet" href="{% static 'assets/plugins/sweetalert/sweetalert.css' %}"/>
+
+<link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/hm-style.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/color_skins.css' %}">
+</head>
+
+
+{% endblock %}
+
+{% block down %}
+<section class="content profile-page">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-lg-7 col-md-6 col-sm-12">
+                <h2>Group Addmission
+
+                </h2>
+            </div>
+            <div class="col-lg-5 col-md-6 col-sm-12">
+
+                <ul class="breadcrumb float-md-right">
+                    <li class="breadcrumb-item"><a href="{% url 'Frontdesk:front_create_group' '0' %}"><i class="zmdi zmdi-plus-square"></i> Create New Group</a></li>
+
+                </ul>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="body">
+                        <div class="row clearfix">
+
+						 <div class="container">
+					<div class="col-md-12">
+						<div class="card-plain">
+                            {% if groupid %}
+                            <p style="float:right">{% if enquiry_data %}<b>Visited Date:&nbsp;&nbsp;{{enquiry_data.visited_date}}</b>
+                                <br>{% endif %}<b>Addmission Date:&nbsp;&nbsp;{{admission_date}}</b>
+                            </p>
+
+                            <br><br>
+                            <center>
+                                <h4><strong>Course Name:</strong> {{ batchid.course.name }} </h4>
+
+                            </center>
+                            <center>
+                                <p><strong>Course Medium:</strong> {{ batchid.course.medium }} </p>
+
+                            </center>
+                            <center>
+                                <p><strong>Batch Name:</strong> {{ batchid.name }} </p>
+
+                            </center>
+                            {% else %}
+
+                  <center>
+					<div class="content" style = "max-width:500px; min-width:250px;">
+                        <div >
+                                <label><b>Chosse Course</b></label>
+                                <select class="form-control show-tick" name = 'course' required="required"
+                                onchange="window.location=this.value">
+                                    <option value="">-- Select Courses --</option>
+									{% for c in all_course %}
+                                    {% if courseid.id == c.id %}
+                                    <option value="{% url 'Frontdesk:front_group_addmission' c.id  '0' '0' eid %}" selected>{{ c.name }}/{{c.medium}}</option>
+                                    {% else %}
+                                     <option value="{% url 'Frontdesk:front_group_addmission' c.id  '0' '0' eid %}" >{{ c.name }}/{{c.medium}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+
+                            </div>
+                        <br>
+
+                    </div></center>
+                  <center>
+					<div class="content" style = "max-width:500px; min-width:250px;">
+                        <div >
+                            <label><b>Chosse Batch</b></label>
+                            <select class="form-control show-tick" name = 'batch' required="required"
+                             onchange="window.location=this.value">
+                                    <option value="">-- Select batch --</option>
+                                   {% if courseid %}
+									{% for b in courseid.master_batch_data_set.all %}
+                                    {% if batchid.id == b.id %}
+                                    <option value="{% url 'Frontdesk:front_group_addmission' courseid.id b.id '0' eid %}" selected>{{ b.name }}</option>
+                                    {% else %}
+                                     <option value="{% url 'Frontdesk:front_group_addmission' courseid.id b.id '0' eid  %}">{{ b.name }}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                   {% endif %}
+                            </select>
+
+                        </div>
+
+                    </div></center>
+                            <center>
+					<div class="content" style = "max-width:500px; min-width:250px;">
+                        <div >
+
+                            <label><b>Chosse Group</b></label>
+
+
+                            <select class="form-control show-tick"  required="required"
+                             onchange="window.location=this.value">
+                                    <option value="">-- Select Group --</option>
+									 {% if batchid %}
+									{% for g in batchid.front_create_group_data_set.all %}
+
+
+                                <option value="{% url 'Frontdesk:front_group_addmission' courseid.id batchid.id g.id eid %}">
+                                    {{ g.group_name }}-{{ g.min_range }}
+
+                                </option>
+
+                                    {% endfor %}
+                                   {% endif %}
+                            </select>
+
+
+
+                        </div>
+
+                    </div></center>
+
+                            {% endif %}
+            </div>
+        </div>
+    </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if groupid %}
+    <div class="container-fluid">
+	<form action="" method = "post" enctype="multipart/form-data">
+        {% csrf_token %}
+                       <div class="row clearfix">
+            <div class="col-md-12">
+                <div class="card">
+                     <div class="header">
+                        <h2><strong>Your</strong> Image </h2>
+
+                    </div>
+                    <div class="body">
+                        <div class="row clearfix">
+
+						 <div class="container">
+					<div class="col-md-12">
+						<div class="card-plain">
+
+								<div class="header">
+
+                           <center>  <h5>Your Image</h5>
+                           <img id="blah" src="{% static 'download.png' %}" height="120" width="150"  />
+
+                           </center>
+                               </div>
+
+					<div class="content" style = "max-width:500px; min-width:250px;">
+                        <div >
+                            {{ form.image }}
+
+                            </div>
+
+
+                    </div>
+
+            </div>
+        </div>
+    </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>Basic</strong> Details </h2>
+
+                    </div>
+                    <div class="body">
+
+
+                        <div class="row clearfix">
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="form-group">
+								<center><label><b>Name</b></label></center>
+                                    {{ form.name }}
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="form-group">
+								<center><label><b>Date Of Birth</b></label></center>
+                                    {{ form.dob }}
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="form-group">
+								<center><label><b>Address</b></label></center>
+                                   {{ form.address }}
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                               <div class="form-group">
+							   <center><label><b>Email</b></label></center>
+                                   {{ form.email }}
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="form-group">
+								<center><label><b>Mobile no.</b></label></center>
+                                   {{ form.mobile }}
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="form-group">
+								<center><label><b>College/School</b></label></center>
+                                   {{form.college}}
+                                </div>
+                            </div>
+							 <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="form-group">
+								<center><label><b>Graduation/Standard</b></label></center>
+                                   {{form.graduation}}
+                                </div>
+                            </div>
+							<div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="form-group">
+								<center><label><b>Stream/Subject</b></label></center>
+                                   {{form.stream}}
+                                </div>
+                            </div>
+							<div class="col-lg-4 col-md-6 col-sm-12">
+                                <center><label><b>Gender</b></label></center>
+                                   {{form.gender}}
+
+                            </div>
+                        </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+			        <div class="row clearfix">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>Parents</strong> Details </h2>
+
+                    </div>
+                    <div class="body">
+                        <div class="row clearfix">
+                            <div class="col-lg-6 col-md-12">
+                                <div class="form-group">
+								<center><label><b>Father's Name</b></label></center>
+                                    {{ form.Father_name }}
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-12">
+                                <div class="form-group">
+								<center><label><b>Contact No.</b></label></center>
+                                   {{ form.father_mob }}
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-12">
+                                <div class="form-group">
+								<center><label><b>Address</b></label></center>
+                                    {{ form.father_add }}
+                                </div>
+                            </div>
+							 <div class="col-lg-6 col-md-12">
+                                <div class="form-group">
+								<center><label><b>Occupation</b></label></center>
+                                    {{ form.Occupation }}
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+		       <div class="row clearfix">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>Fee</strong> Details </h2>
+
+                    </div>
+                    <div class="body">
+                        <div class="row clearfix">
+                            <div class="col-lg-4 col-md-12">
+                                <div class="form-group">
+								<center><label><b>Fee Packege Details</b></label></center>
+                                 <center> <button type="button" class="btn btn-default waves-effect m-r-20"
+                                                  data-toggle="modal" data-target="#largeModal">
+                                     Fee Packege Details</button></center>
+                                </div>
+                            </div>
+							<div class="col-lg-4 col-md-12">
+                                <div class="form-group">
+								<center><label><b>Discount in %</b></label></center>
+                                    {{ form.discount }}
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-12">
+                                <div class="form-group">
+								<center><label><b>Total Fee</b></label></center>
+                                    {{ form.total_fee }}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        	       <div class="row clearfix">
+            <div class="col-md-12">
+
+                <div class="card">
+
+                    <div class="body">
+                        <div class="row clearfix">
+
+						 <div class="container">
+					<div class="col-md-12">
+						<div class="card-plain">
+
+
+					<div class="content" style = "max-width:500px; min-width:250px;">
+                        <center>
+                        <div>
+                                <input class="btn btn-primary btn-round btn-lg " type = "submit" value="Add Student">
+
+                            </div></center>
+
+
+                    </div>
+
+            </div>
+        </div>
+    </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		</form>
+        </div>
+{% endif %}
+    </div>
+    <!-- Large Size -->
+
+</section>
+
+<div class="modal fade" id="largeModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="title" id="largeModalLabel">{{ data.name }}&nbsp; Details</h5>
+                 <ul class="nav nav-tabs padding-0">
+                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#Details">Fee Packege Details</a></li>
+                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Structure" onclick=" myFunction3();">Installments</a></li>
+                </ul>
+            </div>
+            <div class="modal-body">
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="Details">
+                        <div class="card">
+                            <div class="body">
+                                <center>
+                                    <h6>Course Name:&nbsp;&nbsp;{{ data.course.name }}</h6>
+                                    <p><b>Fee Packege Name:&nbsp;&nbsp;{{ data.name }}</b></p>
+                                </center>
+                                <p>
+                                <h6>Total Fee:&nbsp;&nbsp; {{ data.total_fee }}</h6>
+                                <h6>Maximum Discount for Student  :&nbsp; &nbsp; {{ grp_discount }}
+                                &nbsp;%
+                                </h6>
+                                </p>
+
+                    <div class="tab-pane" id="Students">
+                                <div class="table-responsive">
+                                    <center>
+                                    <table class="table table-hover m-b-0 c_list">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Fee Type</th>
+                                                <th data-breakpoints="xs">Fee</th>
+
+                                            </tr>
+                                        </thead>
+                                            <tbody>
+                                            {% for i in  data.master_fee_type_packege_data_set.all %}
+                                            <tr>
+                                                <td >
+                                                    <div class="checkbox">
+                                                        <input id="ch{{ forloop.counter }}" type="checkbox" checked onclick="myFunction3();">
+                                                        <label for="ch{{ forloop.counter }}">&nbsp;</label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <p class="c_name">{{ i.fee_type }}</p>
+                                                </td>
+                                                <td id ="f{{ forloop.counter }}">
+                                                    <span class="phone">{{ i.fee }}</span>
+                                                </td>
+
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table></center>
+                                </div>
+                            </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="Structure">
+                        <div class="card">
+                            <div class="body">
+                                <h6>Installment in percentage</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Installment</th>
+                                                <th>percentage</th>
+                                                <th>Amount</th>
+                                                <th>Installment Last Date</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for i in data.master_make_installment_data_set.all %}
+                                            <tr>
+                                                <td>{{ i.name }}</td>
+                                                <td >{{ i.percentage }}%</td>
+                                                <td id="ins{{ forloop.counter }}"> </td>
+                                                <td >{{ i.master_installment_last_date_set.first.last_date }}</td>
+
+                                            </tr>
+                                           {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+        </div>
+    </div>
+</div>
+<!-- Jquery Core Js -->
+<script>
+
+function myFunction3() {
+    discount_per = {{ grp_discount }}
+            var num = parseInt(document.getElementById("discount_id").value);
+            if (!num)
+            {
+            num = 0;
+            }
+            if(num>discount_per)
+            {
+            var strng = "You can not provide discount more than " + discount_per.toString() + "%";
+             alert(strng);
+             document.getElementById("discount_id").value = 0;
+            }
+    var total = 0;
+    document.getElementById("total_fee_id").value = {{ data.total_fee }}
+    var n = {{ data.total_fee }};
+    var d1 = {{ fee_type }};
+    var d = {{ ins_list }};
+    var num = parseInt(document.getElementById("discount_id").value);
+    if (num > 0)
+    {
+     n1 = (n*num)/100;
+     n = n -n1;
+    }
+
+
+
+    for (var i = 0; i<d1.length; i++)
+        {
+           var t = i + 1;
+           var k = t.toString();
+           var check = document.getElementById("ch"+k);
+           if (check.checked)
+
+           {
+             var y = 0
+           }
+
+           else
+
+           {
+            var fee = parseInt(document.getElementById("f"+k).innerText);
+            var n = n-fee;
+
+           }
+
+        }
+
+    for (var i = 0; i<d.length; i++)
+        {
+           var per = (n*d[i])/100;
+           total = total + per;
+           var total2 = total
+           var t1 = i + 1;
+           var k1 = t1.toString();
+           document.getElementById("ins"+k1).innerText = per;
+        }
+        document.getElementById("total_fee_id").value = total2;
+
+
+}
+window.onload = myFunction3;
+
+</script>
+
+
+
+<script>
+ function add_number() {
+
+            var first_number = parseInt(document.getElementById("Text2").value);
+            var second_number = parseInt(document.getElementById("Text1").value);
+
+
+            var result = first_number - second_number  ;
+
+            document.getElementById("txtresult").value = result;
+        }
+</script>
+<script type="text/javascript">
+        function change_url(val) {
+            window.location=val;
+        }
+    </script>
+<script>
+function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result)
+                        .width(150)
+                        .height(120);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+</script>
+<script>
+
+</script>
+<script src="{% static 'assets/bundles/libscripts.bundle.js' %}"></script> <!-- Lib Scripts Plugin Js -->
+<script src="{% static 'assets/bundles/vendorscripts.bundle.js' %}"></script> <!-- Lib Scripts Plugin Js -->
+
+<script src="{% static 'assets/bundles/index.bundle.js' %}"></script> <!-- Jquery Knob, Count To, Sparkline Js -->
+<script src="{% static 'assets/bundles/morrisscripts.bundle.js' %}"></script><!-- Morris Plugin Js -->
+<script src="{% static 'assets/plugins/dropzone/dropzone.js' %}"></script> <!-- Dropzone Plugin Js -->
+<script src="{% static 'assets/bundles/mainscripts.bundle.js' %}"></script>
+<script src="{% static 'assets/js/pages/charts/jquery-knob.js' %}"></script>
+<script src="{% static 'assets/js/pages/index2.js' %}"></script>
+<script src="{% static 'assets/plugins/sweetalert/sweetalert.min.js' %}"></script>
+<script src="{% static 'assets/js/pages/ui/dialogs.js' %}"></script>
+<script>
+    /*global $ */
+    $(document).ready(function() {
+      "use strict";
+      $('.menu > ul > li:has( > ul)').addClass('menu-dropdown-icon');
+      //Checks if li has sub (ul) and adds class for toggle icon - just an UI
+
+      $('.menu > ul > li > ul:not(:has(ul))').addClass('normal-sub');
+
+      $(".menu > ul > li").hover(function(e) {
+        if ($(window).width() > 943) {
+          $(this).children("ul").stop(true, false).fadeToggle(150);
+          e.preventDefault();
+        }
+      });
+      //If width is more than 943px dropdowns are displayed on hover
+      $(".menu > ul > li").click(function() {
+        if ($(window).width() <= 943) {
+          $(this).children("ul").fadeToggle(150);
+        }
+      });
+      //If width is less or equal to 943px dropdowns are displayed on click (thanks Aman Jain from stackoverflow)
+
+      $(".h-bars").click(function(e) {
+        $(".menu > ul").toggleClass('show-on-mobile');
+        e.preventDefault();
+      });
+      //when clicked on mobile-menu, normal menu is shown as a list, classic rwd menu story (thanks mwl from stackoverflow)
+
+    });
+    </script>
+	{% endblock %}
+</body>
+
+<!-- Mirrored from thememakker.com/templates/oreo/university/html/index2.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 17 Sep 2018 02:53:20 GMT -->
+</html>

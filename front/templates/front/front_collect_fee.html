@@ -1,0 +1,379 @@
+
+{% extends 'front/front_base.html' %}
+
+{% block up %}
+
+
+<!doctype html>
+<html class="no-js " lang="en">
+
+<!-- Mirrored from thememakker.com/templates/oreo/university/html/index2.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 17 Sep 2018 02:53:20 GMT -->
+<head>
+{% load static %}
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<meta name="description" content="Responsive Bootstrap 4 and web Application ui kit.">
+
+<title>:: Oreo University Admin ::</title>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<!-- Favicon-->
+<link href="{% static 'assets/plugins/dropzone/dropzone.css' %}" rel="stylesheet">
+<link rel="stylesheet" href="{% static 'assets/plugins/bootstrap/css/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'assets/plugins/morrisjs/morris.css' %}"/>
+<link href="{% static 'assets/plugins/bootstrap-select/css/bootstrap-select.css' %}" rel="stylesheet" />
+<!-- Custom Css -->
+<link rel="stylesheet" href="{% static 'assets/css/main.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/hm-style.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/color_skins.css' %}">
+</head>
+
+
+{% endblock %}
+
+{% block down %}
+<section class="content">
+    <div class="block-header">
+        <div class="row">
+            <div class="col-lg-7 col-md-6 col-sm-12">
+                <h2>Collect Fee
+               </h2>
+            </div>
+
+        </div>
+
+
+    </div>
+    <div class="container-fluid">
+        <div class="row clearfix">
+            <div class="col-md-12">
+                <div class="card" >
+
+     <div class="body">
+                        <div class="row clearfix">
+
+						 <div class="container">
+					<div class="col-md-12">
+						<div class="card-plain">
+                        {% if student_data %}
+                         <center>
+                                <h5><strong>Course Name:</strong> {{ batch.course.name }}-{{ batch.course.medium }} </h5>
+                             <p><strong>Batch Name: </strong> {{ batch.name }}</p>
+
+                            </center>
+                            {% else %}
+
+
+                  <center>
+					<div class="content" style = "max-width:500px; min-width:250px;">
+
+
+                        <div >
+                                <label><b>Chosse Course</b></label>
+                                <select class="form-control show-tick" name = 'course' required="required"
+                                onchange="window.location=this.value">
+                                    <option value="">-- Select Courses --</option>
+									{% for c in all_course %}
+                                    {% if course.id == c.id %}
+                                    <option value="{% url 'Frontdesk:front_fee_details' c.id '0' %}" selected>{{ c.name }}/{{c.medium}}</option>
+                                    {% else %}
+                                     <option value="{% url 'Frontdesk:front_fee_details' c.id '0'  %}" >{{ c.name }}/{{c.medium}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+                                </select>
+
+                            </div>
+                        <br>
+
+                    </div></center>
+                  <center>
+					<div class="content" style = "max-width:500px; min-width:250px;">
+                        <div >
+                            <label><b>Chosse Batch</b></label>
+                            <select class="form-control show-tick" name = 'batch' required="required"
+                              onchange="window.location=this.value">
+                                    <option value="">-- Select batch --</option>
+                                   {% if course %}
+									{% for b in course.master_batch_data_set.all %}
+                                    <option value="{% url 'Frontdesk:front_fee_details' course.id b.id %}">{{ b.name }}</option>
+                                    {% endfor %}
+                                   {% endif %}
+                            </select>
+
+                        </div>
+
+                    </div></center><br>{% endif %}
+
+            </div>
+        </div>
+    </div>
+
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        {% if student_data %}
+         <div class="row clearfix">
+            <div class="col-md-12">
+                <div class="card student-list">
+                      <div class="header">
+            <h2><strong>Student </strong> List</h2>
+        </div>
+
+                    <div class="body">
+                        <div class="body table-responsive">
+                             <table class="table table-hover m-b-0" id="myTable">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Total Fee</th>
+                                        <th>Paid Fee</th>
+                                        <th>Remaining Fee</th>
+                                        <th>Fee Pay</th>
+                                        <th>Student Fee Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for details in student_data %}
+
+                                <tr>
+                                        <td>{{ details.name }}</td>
+                                        <td>{{ details.total_fee }}</td>
+                                        <td>{{ details.total_fee_pay }}</td>
+                                        <td>{{ details.fee_after_pay }}</td>
+                                        <td><a href ="" data-toggle="modal" data-target="#pay{{ details.id }}"><span class=" tag badge badge-info">PayFee</span></a></td>
+                                        <td><a href =""data-toggle="modal" data-target="#fee_details{{ details.id }}"><span class=" tag badge badge-warning">Fee Details</span></a></td>
+
+
+                                </tr>
+
+                                {% endfor %}
+
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        {% endif %}
+
+        </div>
+
+</section>
+{% if student_data %}
+
+  {% for i in student_data %}
+                  <div class="modal fade" id="pay{{ i.id }}" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h5 class="title" id="largeModalLabel">Pay Fee </h5>
+
+                 <p class="title" ><strong class="col-orange">Payment Date  </strong>  {{ payment_date }}</p>
+
+
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                            <div class="body">
+                                <form>
+                                    {% csrf_token %}
+                                    <center>
+                                          <lable><b>Select Payment Mode</b></lable>
+                                    <div class="col-lg-7">
+
+                                    <select class="form-control show-tick" onchange="yesnoCheck(this);" >
+
+                                        <option value = "cash" >Cash</option>
+                                        <option value = "cheque" >Cheque</option>
+
+                                    </select>
+
+                                        <br>
+                                        <lable>Amount</lable>
+                                        <input type="text" name="" class="form-control" placeholder="Amount">
+                                    <div id="ifYes" style="display: none;">
+                                        <label>Bank Name</label>
+                                        <input type="text" class="form-control" name=""  placeholder="Bank Name"/><br />
+
+                                         <label>Cheque Number</label>
+                                        <input type="text" class="form-control" name="" placeholder="Cheque Number"/><br />
+
+                                        <label>Cheque Date</label>
+                                        <input type="text" class="form-control" value="{{ payment_date }}" name="" /><br />
+
+                                    </div>
+
+
+                                    </div></center>
+                                </form>
+
+                            </div>
+                </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+            <div class="modal fade" id="fee_details{{ i.id }}" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <center>
+                    <h5 class="title" id="largeModalLabel1"><strong class="col-orange">{{i.name}}'s  </strong> Fee Detail </h5>
+                    </center>
+
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                            <div class="body">
+                                <div class="table-responsive">
+                            <table class="table table-hover m-t-20">
+                                <thead>
+                                <th>Installments</th>
+                                <th>Amount</th>
+                                <th>Paid Amount</th>
+                                <th>Remaining Amount</th>
+
+                               </thead>
+                                <tbody>
+                                {% for ins in i.front_student_fee_installment_data_set.all %}
+                                <tr>
+                                <td>{{ ins.installment }}</td>
+                                <td>{{ ins.amount }}</td>
+                                <td>{{ ins.pay_fee }}</td>
+                                <td>{{ ins.remaining_fee }}</td>
+
+                                </tr>
+                                {% endfor %}
+                                <tr>
+                                    <td><strong class="col-orange" >Total</strong></td>
+                                    <td><strong>{{ i.total_fee }}</strong></td>
+                                    <td><strong>{{ i.total_fee_pay }}</strong></td>
+                                    <td><strong>{{ i.fee_after_pay }}</strong></td>
+                                </tr>
+
+
+
+                                </tbody>
+
+                            </table>
+                        </div>
+                            </div>
+                </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+{% endfor %}
+
+{% endif %}
+<script>
+    function yesnoCheck(that) {
+
+        if (that.value == 'cheque') {
+
+
+            document.getElementById("ifYes").style.display = "block";
+        } else {
+            document.getElementById("ifYes").style.display = "none";
+        }
+
+
+    }
+</script>
+
+<script>
+function myFunction() {
+  var input, filter, table, tr, td,td1,td2,td3,td4,td5, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    td1 = tr[i].getElementsByTagName("td")[2];
+    td2 = tr[i].getElementsByTagName("td")[3];
+    td3 = tr[i].getElementsByTagName("td")[4];
+    td4 = tr[i].getElementsByTagName("td")[5];
+    td5 = tr[i].getElementsByTagName("td")[6];
+
+
+    if (td && td1 && td2 && td3 && td4 && td5 ) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1
+      || td1.innerHTML.toUpperCase().indexOf(filter) > -1
+      || td2.innerHTML.toUpperCase().indexOf(filter) > -1
+      || td3.innerHTML.toUpperCase().indexOf(filter) > -1
+      || td4.innerHTML.toUpperCase().indexOf(filter) > -1
+      || td5.innerHTML.toUpperCase().indexOf(filter) > -1
+      ) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+
+}
+</script>
+<!-- Jquery Core Js -->
+
+
+
+
+<script src="{% static 'assets/bundles/libscripts.bundle.js' %}"></script> <!-- Lib Scripts Plugin Js -->
+<script src="{% static 'assets/bundles/vendorscripts.bundle.js' %}"></script> <!-- Lib Scripts Plugin Js -->
+
+<script src="{% static 'assets/bundles/index.bundle.js' %}"></script> <!-- Jquery Knob, Count To, Sparkline Js -->
+<script src="{% static 'assets/bundles/morrisscripts.bundle.js' %}"></script><!-- Morris Plugin Js -->
+<script src="{% static 'assets/plugins/dropzone/dropzone.js' %}"></script> <!-- Dropzone Plugin Js -->
+<script src="{% static 'assets/bundles/mainscripts.bundle.js' %}"></script>
+<script src="{% static 'assets/js/pages/charts/jquery-knob.js' %}"></script>
+<script src="{% static 'assets/js/pages/index2.js' %}"></script>
+<script>
+    /*global $ */
+    $(document).ready(function() {
+      "use strict";
+      $('.menu > ul > li:has( > ul)').addClass('menu-dropdown-icon');
+      //Checks if li has sub (ul) and adds class for toggle icon - just an UI
+
+      $('.menu > ul > li > ul:not(:has(ul))').addClass('normal-sub');
+
+      $(".menu > ul > li").hover(function(e) {
+        if ($(window).width() > 943) {
+          $(this).children("ul").stop(true, false).fadeToggle(150);
+          e.preventDefault();
+        }
+      });
+      //If width is more than 943px dropdowns are displayed on hover
+      $(".menu > ul > li").click(function() {
+        if ($(window).width() <= 943) {
+          $(this).children("ul").fadeToggle(150);
+        }
+      });
+      //If width is less or equal to 943px dropdowns are displayed on click (thanks Aman Jain from stackoverflow)
+
+      $(".h-bars").click(function(e) {
+        $(".menu > ul").toggleClass('show-on-mobile');
+        e.preventDefault();
+      });
+      //when clicked on mobile-menu, normal menu is shown as a list, classic rwd menu story (thanks mwl from stackoverflow)
+
+    });
+    </script>
+	{% endblock %}
+</body>
+
+<!-- Mirrored from thememakker.com/templates/oreo/university/html/index2.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 17 Sep 2018 02:53:20 GMT -->
+</html>
